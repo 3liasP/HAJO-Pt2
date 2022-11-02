@@ -29,7 +29,7 @@ Kyseessä on siis eräänlainen tuottaja -- kuluttaja -ongelma, jossa n kappalet
 List<Submission> gradedSubmissions = new ArrayList<Submission>(30);
 ```
 
-Tämä ei tietenkään toimi, sillä ensinnäkään `ArrayList` ei ole säieturvallinen ja toiseksi listan kokoa ei olla rajoitettu, jolloin suurella määrällä automaattitarkastajia, lista täyttyy koko ajan nopeammin, mitä kirjuri ehtii kirjaamaan, kunnes tietokoneesta loppuu muisti. Tarkastajat eivät saisi siis täyttää puskuria äärettömästi. Ja vastavuoroisesti kirjurikaan ei saisi kaatua tyhjää tietorakennetta raapiessa.
+Tämä ei tietenkään toimi, sillä ensinnäkään `ArrayList` ei ole säieturvallinen ja toiseksi listan kokoa ei olla rajoitettu, jolloin suurella määrällä automaattitarkastajia, lista täyttyy koko ajan nopeammin, mitä kirjuri ehtii opintorekisteriin kirjaamaan, kunnes tietokoneesta lopulta loppuu muisti. Tarkastajat eivät saisi siis täyttää puskuria äärettömästi. Ja vastavuoroisesti kirjurikaan ei saisi kaatua tyhjää tietorakennetta raapiessa.
 
 Tehtäväsi on selvittää, minkälainen tietorakenne sopisi em. puskuriksi paremmin, vaihtaa  `gradedSubmission` käyttämään kyseistä tietorakennetta ja muokata tarvittavat osat ohjelmasta toimimaan uuden tietorakenteen kanssa. Tietorakenteen pitäisi olla säieturvallinen ja kokorajoitettu (ts. automaattitarkistajat jäävät odottamaan, mikäli tietorakenne on "täynnä"). Sinun ei tarvitse itse toteuttaa kyseistä tietorakennetta, **eikä** käyttää matalan tason säiemekanismeja (esim. wait ja notify).
 
