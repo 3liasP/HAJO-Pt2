@@ -1,4 +1,4 @@
-package fi.utu.tech.common;
+package fi.utu.tech.assignment3;
 
 /**
  * This class requires NO changes

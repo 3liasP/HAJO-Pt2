@@ -1,9 +1,12 @@
-package fi.utu.tech.common;
+package fi.utu.tech.assignment3;
 
-/**
+/*
  * This file will require NO changes
  */
 
+/**
+ * Represents a Submission
+ */
 public class Submission {
     private final int grade;
     private final int difficulty;
@@ -11,8 +14,8 @@ public class Submission {
 
     /**
      * 
-     * @param submitter  The name of the original submitter
-     * @param grade      The given grade for the submission
+     * @param submitter The name of the original submitter
+     * @param grade The given grade for the submission
      * @param difficulty How long it takes relatively to grade this submission
      * @throws IllegalArgumentException If the grade is out of range !(0-5)
      */
@@ -37,6 +40,7 @@ public class Submission {
     public String getSubmittedBy() {
         return this.submittedBy;
     }
+
 
     /**
      * Not all submissions are equal in clarity.
@@ -67,7 +71,7 @@ public class Submission {
     }
 
     public String toString() {
-        return String.format("%s: %d (Graded by: %d)", submittedBy, grade);
+        return String.format("%s: %d (Difficulty: %d)", submittedBy, grade, difficulty);
     }
-
+    
 }

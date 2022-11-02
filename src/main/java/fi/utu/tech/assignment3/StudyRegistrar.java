@@ -2,8 +2,6 @@ package fi.utu.tech.assignment3;
 
 import java.util.List;
 
-import fi.utu.tech.common.StudyRecord;
-import fi.utu.tech.common.Submission;
 
 public class StudyRegistrar extends Thread {
 

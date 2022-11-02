@@ -1,4 +1,4 @@
-package fi.utu.tech.common;
+package fi.utu.tech.assignment3;
 
 /**
  * This file will require NO changes
@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Class for generating list of submissions of variying difficulty
+ */
 public class SubmissionGenerator {
 
     public static enum Strategy {STATIC, RANDOM, LINEAR, UNFAIR};
@@ -30,7 +33,6 @@ public class SubmissionGenerator {
         return submissions;
     }
 
-
     private static int getTimeForStrategy(Strategy strategy, int difficulty, int currentSubmission, int submissionCount) {
         switch (strategy) {
             case LINEAR:
@@ -48,7 +50,9 @@ public class SubmissionGenerator {
 
     
 }
-
+/**
+ * Generates Finnish-sounding names. No need to understand
+ */
 class NameGenerator {
 
     final static char[] consonants = {'h','j','k','l','m','n','p','r','s','t','v'};

@@ -3,19 +3,29 @@ package fi.utu.tech.assignment3;
 import java.util.List;
 import java.util.Random;
 
-import fi.utu.tech.common.Submission;
-
+/**
+ * Automatic Grader thread - grades a list of
+ * Submissions and adds them to gradedSubmissions list
+ */
 public class AutomaticGrader extends Thread {
 
     private List<Submission> ungradedSubmissions;
     private List<Submission> gradedSubmissions;
     private Random rnd = new Random();
 
+    /**
+     * Initialize AutomaticGrader
+     * @param ungradedSubmissions List of ungraded submissions to be graded by this grader
+     * @param gradedSubmissions Reference to a shared list where all the graded submissions will be added
+     */
     public AutomaticGrader(List<Submission> ungradedSubmissions, List<Submission> gradedSubmissions) {
         this.ungradedSubmissions = ungradedSubmissions;
         this.gradedSubmissions = gradedSubmissions;
     }
 
+    /**
+     * Start grading
+     */
     @Override
     public void run() {
         for (var s : ungradedSubmissions) {
@@ -24,6 +34,11 @@ public class AutomaticGrader extends Thread {
 
     }
 
+    /**
+     * Grade a submission
+     * @param s Submission to be graded
+     * @return The graded submission
+     */
     public Submission grade(Submission s) {
         try {
             Thread.sleep(s.getDifficulty());
