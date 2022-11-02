@@ -4,7 +4,7 @@
 Säieturvallisuus, kriittinen alue, synkronointi (mutexit ja monitorit), kilpailutilanteet ja lukkiumatilanteet.
 
 ## Yleiset ohjeet
-Demokerran tehtävät tulisi tehdä niille varattuihin kansioihin (hakemistopuussa src/main alla olevat kansiot): eli siis tämän viikon ensimmäinen harjoitus tulisi tehdä kansioon "assignment1" ja toinen harjoitus kansioon "assignment2" jne. **Tämän viikon tehtävät ovat pääasiassa suoritettavissa toisistaan riippumattomasti**. Ainoastaan tehtävä 6 vaatii tehtävän 5 ratkaisemista, muutoin tehtävien tekojärjestyksellä ei ole merkitystä. Tehtävä 3 käyttää apunansa `common`-pakkauksen luokkia, mutta kyseisen pakkauksen luokkiin ei tule tehdä muutoksia tämän kerran demotehtävissä.
+Demokerran tehtävät tulisi tehdä niille varattuihin kansioihin (hakemistopuussa src/main alla olevat kansiot): eli siis tämän viikon ensimmäinen harjoitus tulisi tehdä kansioon "assignment1" ja toinen harjoitus kansioon "assignment2" jne. **Tämän viikon tehtävät ovat pääasiassa suoritettavissa toisistaan riippumattomasti**. Ainoastaan tehtävä 6 vaatii tehtävän 5 ratkaisemista, muutoin tehtävien tekojärjestyksellä ei ole merkitystä.
 
 ## Tehtävät
 
@@ -19,19 +19,19 @@ Tehtävässä 2 on melko lailla sama rakenne kuin tehtävässä 1. Erona on, ett
 Pohdi myös, miksi lista ei toimi halutun kaltaisesti - eihän säie muuta tee kuin lisää listaan uuden luvun, vai tekeekö...
 
 ### Tehtävä 3 - Roboassarit
-On vuosi 2100 ja assarit on korvattu automaattitarkastajilla, joita kuvaa ohjelmassamme `AutomaticGrader`-luokan oliot. Näille automaattitarkastajille voidaan antaa kasa tarkistettavia tehtäviä ja ne tarkistavat annetut tehtävät automaattisesti käyttäen samaa algoritmia kuin viime viikon tarkistustehtävissä käytettiin (noppa). Kun tarkistus on suoritettu, heittää tarkastaja arvioidun tehtävän palautettujen tehtävien "koriin". Toki automaattitarkastajia on useampia ja näistä jokainen heittelee tarkistettuja tehtäviä samaan koriin.
+On vuosi 2100 ja assarit on korvattu automaattitarkastajilla, joita kuvaa ohjelmassamme `AutomaticGrader`-luokan säieoliot. Näille automaattitarkastajille voidaan antaa lista tarkistettavia tehtäviä (`Submission`) ja ne tarkistavat annetut tehtävät automaattisesti käyttäen samaa algoritmia kuin viime viikon demoissakin käytettiin (arvosana arvotaan). Kun tarkistus on suoritettu, lisää automaattitarkastaja arvioidun palautuksen yhteiseen `gradedSubmissions` -listaan, joka on siis **jaettu kaikkien muidenkin automaattitarkastajasäieolioiden kesken**.
 
-Integraatio opintorekisterijärjestelmään on toteutettu `StudyRegistrar`-luokan olion avulla. Tämän luokan olion tehtävänä on seurata valmistuneiden palautusten koria uusien palautusten varalta ja napata palautus heti kun koriin tällainen ilmestyy. Napattuaan palautuksen, `StudyRegistrar`-olio lisää `StudyRecord`-olion näille osoitettuun `studyRegistry`-listaan. Kyseessä on siis eräänlainen kyseessä on siis eräänlainen tuottaja -- kuluttaja -ongelma, jossa n kappaletta arvioijia tuottaa arvioituja töitä ja 1 kappale StudyRegistrar-olioita kuluttaa arvioituja töitä.
+`StudyRegistrar`-luokan säieolion tehtävä on puolestaan seurata automaattitarkastajien täyttämää `gradedSubmissions`-listaa uusien tarkistettujen palautusten varalta. Kun uusi tarkistettu palautus löytyy listalta, lisää `StudyRegistrar` merkinnän "opintorekisteriin" ja poistaa kyseisen palautuksen `gradedSubmissions`-listalta, kyseisen palautuksen ollessa käsitelty.
 
-Tällä hetkellä järjestelmää kehittänyt henkilö on yrittänyt ratkaista ongelman siten, että kaikki automaattitarkistajat sekä yksi arvosanojenkirjaaja yhdessä käyttävät `ArrayList`-oliota nimeltä `graderSubmissions` "puskurina". 
+Kyseessä on siis eräänlainen tuottaja -- kuluttaja -ongelma, jossa n kappaletta arvioijia tuottaa arviointeja ja 1 kappale StudyRegistrar-säieolioita kuluttaa näitä arvioituja töitä. Olio `gradedSubmissions` toimii puskurina näiden välillä; jokaisella oliolla/säikeellä on viittaus tähän listaan.
 
 ```java
 List<Submission> gradedSubmissions = new ArrayList<Submission>(30);
 ```
 
-Tämä ei tietenkään toimi, sillä ensinnäkään ArrayList ei ole säieturvallinen ja toiseksi listan kokoa ei olla rajoitettu, jolloin suurella määrällä automaattitarkastajia, lista täyttyy koko ajan nopeammin, mitä kirjuri ehtii kirjaamaan, kunnes tietokoneesta loppuu muisti. Tarkastajat eivät saisi siis täyttää puskuria äärettömästi.
+Tämä ei tietenkään toimi, sillä ensinnäkään `ArrayList` ei ole säieturvallinen ja toiseksi listan kokoa ei olla rajoitettu, jolloin suurella määrällä automaattitarkastajia, lista täyttyy koko ajan nopeammin, mitä kirjuri ehtii kirjaamaan, kunnes tietokoneesta loppuu muisti. Tarkastajat eivät saisi siis täyttää puskuria äärettömästi. Ja vastavuoroisesti kirjurikaan ei saisi kaatua tyhjää tietorakennetta raapiessa.
 
-Tehtäväsi on selvittää, minkälainen tietorakenne sopisi em. "korille" paremmin ja muuttaa ohjelmaa käyttämään kyseistä tietorakennetta ongelman ratkaisuun. Tietorakenteen pitäisi olla säieturvallinen ja kokorajoitettu (ts. automaattitarkistajat jäävät odottamaan, mikäli kori on "täynnä"). Sinun ei tarvitse itse toteuttaa kyseistä tietorakennetta, **eikä** käyttää matalan tason säiemekanismeja (esim. wait ja notify).
+Tehtäväsi on selvittää, minkälainen tietorakenne sopisi em. puskuriksi paremmin, vaihtaa  `gradedSubmission` käyttämään kyseistä tietorakennetta ja muokata tarvittavat osat ohjelmasta toimimaan uuden tietorakenteen kanssa. Tietorakenteen pitäisi olla säieturvallinen ja kokorajoitettu (ts. automaattitarkistajat jäävät odottamaan, mikäli tietorakenne on "täynnä"). Sinun ei tarvitse itse toteuttaa kyseistä tietorakennetta, **eikä** käyttää matalan tason säiemekanismeja (esim. wait ja notify).
 
 
 Vinkkejä:
@@ -46,7 +46,7 @@ Valtio on päättänyt tasoittaa tuloeroja määräämällä lain, jossa tilisii
 a. Millä nimellä tätä tilannetta kutsutaan ja miksi tilisiirrot tässä ohjelmassa hyytyvät (selosta vaikka esimerkin avulla)?
 b. Pystytkö korjaamaan `BankTransfer`-luokan siten, että tilisiirrot eivät jämähdä?
 
-Yritä keksiä tehtävään (b) ratkaisu, mutta suoritukseksi riittää, että olet tehnyt kohdan (a) ja pohtinut kohtaa (b), vaikket olisikaan löytänyt ratkaisua.
+Yritä keksiä tehtävään (b) ratkaisu, mutta suoritukseksi riittää, että olet tehnyt kohdan (a) ja pohtinut kohtaa (b), vaikket olisikaan löytänyt täydellistä ratkaisua.
 
 ### Tehtävä 5 - Lamppukeskitin
 
