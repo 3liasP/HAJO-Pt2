@@ -1,6 +1,7 @@
 package fi.utu.tech.assignment1;
 
 import java.util.List;
+import java.util.concurrent.Semaphore;
 import java.util.stream.Stream;
 
 public class App1 {
@@ -37,7 +38,7 @@ class Count {
 }
 
 class Counter extends Thread {
-
+    private static Semaphore semaphore = new Semaphore(1); 
     Count count;
 
     public Counter(Count c) {
@@ -50,7 +51,18 @@ class Counter extends Thread {
          * This thread's purpose in life is to 
          * increase the value of the shared count by one
          */
-        int oldCount = count.getCount();
-        count.setCount(oldCount + 1);
+        {
+            try
+            {
+                semaphore.acquire();
+            }
+            catch (InterruptedException e)
+            {
+                //process excp
+            }
+            int oldCount = count.getCount();
+            count.setCount(oldCount + 1);
+            semaphore.release();
+        }
     }
 }

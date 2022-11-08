@@ -1,13 +1,15 @@
 package fi.utu.tech.assignment2;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
 public class App2 {
 
     public static void main(String[] args) {
-        List<Integer> sharedList = new ArrayList<>();
+        // Käytetään synkronoitua listaa
+        List<Integer> sharedList = Collections.synchronizedList(new ArrayList<Integer>());
 
         // Luodaan ja käynnistetään threadCount verran laskijasäikeitä
         int threadCount = 20000;
@@ -27,8 +29,8 @@ public class App2 {
 
 
 class ListEditor extends Thread {
-
-    List<Integer> l;
+    // Käytetään synkronoitua listaa
+    List<Integer> l = Collections.synchronizedList(new ArrayList<Integer>());
 
     public ListEditor(List<Integer> l) {
         this.l = l;
