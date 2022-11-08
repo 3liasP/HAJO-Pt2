@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class App4test {
+public class App4 {
     // Huom! Main-metodiin ei pitäisi tarvita tehdä muutoksia!
     // Main-metodi ainoastaan luo tilit ja alkaa tekemään samanaikaisia tilisiirtoja
     public static void main(String[] args) {
