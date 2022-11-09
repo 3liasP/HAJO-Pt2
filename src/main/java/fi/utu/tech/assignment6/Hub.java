@@ -21,13 +21,14 @@ public class Hub implements Runnable {
      * 
      * @return The id of the newly-created light
      */
-    public int addLight() {
+    // Suojataan synchronized-avainsanalla
+    public synchronized int addLight() {
         int id = rnd.nextInt(1000);
         lights.put(id, new Light(id));
         return id;
     }
-
-    public void removeLight(int id) {
+    // Suojataan synchronized-avainsanalla
+    public synchronized void removeLight(int id) {
         // Täytyy tarkistaa, onko arvo vielä olemassa,
         // sillä joku saattoi lukulukosta kirjoituslukkoon vaihtamisen
         // aikana poistaa saman avaimen
@@ -83,7 +84,8 @@ public class Hub implements Runnable {
     /**
      * Turn off all the lights
      */
-    public void turnOffAllLights() {
+    // Suojataan synchronized-avainsanalla
+    public synchronized void turnOffAllLights() {
         for (var l : lights.values()) {
             l.turnOff();
         }
@@ -92,7 +94,8 @@ public class Hub implements Runnable {
     /**
      * Turn on all the lights
      */
-    public void turnOnAllLights() {
+    // Suojataan synchronized-avainsanalla
+    public synchronized void turnOnAllLights() {
         for (var l : lights.values()) {
             l.turnOn();
         }
@@ -109,7 +112,12 @@ public class Hub implements Runnable {
         lightIds = new ArrayList<>(lights.keySet());
         Collections.sort(lightIds);
         for (int id : lightIds) {
-            tmp.append(String.format("%s ", lights.get(id).isPowerOn() ? "ON" : "OF"));
+            // siirretään operaatio try-catch -lohkoon
+            try {
+				tmp.append(String.format("%s ", lights.get(id).isPowerOn() ? "ON" : "OF"));
+			} catch (NullPointerException e) {
+				// empty
+			}
         }
         return tmp.toString();
     }

@@ -3,7 +3,7 @@ package fi.utu.tech.assignment5;
 
 public class Light {
 
-    private boolean powerOn = false;
+    private volatile boolean powerOn = false;
     private int id;
 
     /**

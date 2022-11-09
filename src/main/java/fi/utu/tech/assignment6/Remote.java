@@ -24,33 +24,42 @@ public class Remote extends Thread {
         while (true) {
             int next = rnd.nextInt(Action.values().length);
             Action nextAction = Action.values()[next];
-            List<Integer> lightIds = new ArrayList<>(hub.getLightIds());
-            int id = lightIds.get(rnd.nextInt(lightIds.size()));
-            switch (nextAction) {
-                case TURNOFF:
-                    hub.turnOffLight(id);
-                case TOGGLE:
-                    hub.toggleLight(id);
-                    break;
-                case TURNOFFALL:
-                    hub.turnOffAllLights();
-                    break;
-                case TURNON:
-                    hub.turnOnLight(id);
-                    break;
-                case TURNONALL:
-                    hub.turnOnAllLights();
-                    break;
-                case REMOVE:
-                    hub.removeLight(id);
-                    break;
-                case ADD:
-                    hub.addLight();
-                    break;
-                default:
-                    break;
-            }
+            List<Integer> lightIds;
+			// synkronoitu ArrayListin luonti
+            synchronized (hub) {
+				lightIds = new ArrayList<>(hub.getLightIds());
+			}
+			int id = lightIds.get(rnd.nextInt(lightIds.size()));
+			// pyritään välttämään ConcurrentModificationException-poikkeus
             try {
+				switch (nextAction) {
+				case TURNOFF:
+					hub.turnOffLight(id);
+				case TOGGLE:
+					hub.toggleLight(id);
+					break;
+				case TURNOFFALL:
+					hub.turnOffAllLights();
+					break;
+				case TURNON:
+					hub.turnOnLight(id);
+					break;
+				case TURNONALL:
+					hub.turnOnAllLights();
+					break;
+				case REMOVE:
+					hub.removeLight(id);
+					break;
+				case ADD:
+					hub.addLight();
+					break;
+				default:
+					break;
+				}
+			} catch (NullPointerException e) {
+				// empty
+			}
+			try {
                 sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();

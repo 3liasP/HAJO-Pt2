@@ -1,6 +1,7 @@
 package fi.utu.tech.assignment3;
 
 import java.util.List;
+import java.util.Queue;
 import java.util.Random;
 
 /**
@@ -10,15 +11,15 @@ import java.util.Random;
 public class AutomaticGrader extends Thread {
 
     private List<Submission> ungradedSubmissions;
-    private List<Submission> gradedSubmissions;
+    private Queue<Submission> gradedSubmissions;
     private Random rnd = new Random();
 
     /**
      * Initialize AutomaticGrader
-     * @param ungradedSubmissions List of ungraded submissions to be graded by this grader
+     * @param ungradedSubmissions2 List of ungraded submissions to be graded by this grader
      * @param gradedSubmissions Reference to a shared list where all the graded submissions will be added
      */
-    public AutomaticGrader(List<Submission> ungradedSubmissions, List<Submission> gradedSubmissions) {
+    public AutomaticGrader(List<Submission> ungradedSubmissions, Queue<Submission> gradedSubmissions) {
         this.ungradedSubmissions = ungradedSubmissions;
         this.gradedSubmissions = gradedSubmissions;
     }
